@@ -1,0 +1,71 @@
+.balances {
+    width: min(1100px, 92%);
+    min-height: 40vh;
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    background-color: rgb(205, 238, 252);
+    border-radius: 1.3rem;
+    display: flex;
+    justify-content: 
+    al
+}
+
+.addAccountPanel {
+    width: min(400px, 100%);
+    min-height: 60vh;
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    background: #ffffff;
+    border: 1px solid color-mix(in srgb, var(--gray-400) 35%, transparent);
+    border-radius: 1.3rem;
+    box-shadow:
+        0 30px 90px color-mix(in srgb, var(--french-violet) 15%, transparent),
+        0 18px 50px color-mix(in srgb, var(--bright-blue) 12%, transparent);
+    position: fixed;
+    right: 100px;
+}
+
+.form-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: var(--text-strong);
+}
+
+.textInput:focus {
+    outline: 2px solid color-mix(in srgb, var(--bright-blue) 40%, transparent);
+    outline-offset: 2px;
+    border-color: color-mix(in srgb, var(--bright-blue) 30%, transparent);
+}
+
+button[type="submit"] {
+    align-self: flex-start;
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--bright-blue) 24%, transparent);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--bright-blue) 78%, #ffffff 22%),
+        color-mix(in srgb, var(--electric-violet) 68%, #ffffff 32%)
+    );
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 150ms ease, box-shadow 160ms ease;
+    box-shadow: 0 10px 26px color-mix(in srgb, var(--bright-blue) 18%, transparent);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--bright-blue) 22%, transparent);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+.textInput {
+    padding: 0.62rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--bright-blue) 18%, transparent);
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--bright-blue) 6%, #ffffff 94%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}

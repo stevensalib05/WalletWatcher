@@ -109,6 +109,8 @@ h1 {
         box-shadow 160ms ease,
         background 180ms ease,
         border-color 180ms ease;
+    margin-left: 0.33rem;
+    margin-right: 0.33rem;
 }
 
 .nav-link:hover {
