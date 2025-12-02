@@ -1,0 +1,9 @@
+.budget {
+    width: min(1100px, 92%);
+    min-height: 40vh;
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    background-color: rgb(205, 238, 252);
+    border-radius: 1.3rem;
+    display: flex;
+    justify-content: center;
+}
