@@ -32,6 +32,10 @@
     color: white;
 }
 
+.navbaritem:hover {
+    text-shadow: 0 0 10px rgb(255, 255, 255);
+}
+
 #logout {
     margin-left: auto;
 }
