@@ -1,0 +1,31 @@
+.welcomecontainer {
+    min-height: 100vh;
+    background: linear-gradient(to right, #131313, #2f2f2f)
+}
+
+.welcome {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+}
+
+.navbarcontent {
+    display: flex;
+    list-style: none;
+    float: left;
+}
+
+.navbaritem {
+    text-align: center;
+    padding: 10px 14px;
+    text-decoration: none;
+}
