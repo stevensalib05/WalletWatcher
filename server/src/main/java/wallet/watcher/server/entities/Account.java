@@ -5,6 +5,10 @@ public class Account {
     private String accountName;
     private Integer balance;
 
+    public Account() {
+
+    }
+    
     public Account(String email, String accountName, Integer balance) {
         this.email = email;
         this.accountName = accountName;

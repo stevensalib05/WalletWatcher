@@ -35,6 +35,7 @@ public class AccountsController {
 
     @PostMapping("/{email}")
     public ResponseEntity<Object> addAccount(@PathVariable String email, @RequestBody Account account) {
+        account.setEmail(email);
         accountDAO.addAccount(account);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

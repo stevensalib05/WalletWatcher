@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 function Accounts() {
   const [userData, setUserData] = useState<User | null>(null);
   const [accounts, setAccounts] = useState<any[] | null>([]);
+  const [addAccountFormStatus, setAccountFormStatus] = useState<boolean | null>(null);
+
+  const [accountName, setAccountName] = useState<string>("");
+  const [balance, setBalance] = useState<string>("");
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -24,18 +28,34 @@ function Accounts() {
       if (!userData?.email) return;
 
       const res = await fetch(`/api/accounts/${encodeURIComponent(userData.email)}`, { credentials: "include" });
-      if (res.status) return setAccounts([]);
+      if (res.status !== 200) return setAccounts([]);
       const accountInfo = await res.json();
 
-      setAccounts(accountInfo);
+      setAccounts(accountInfo.accounts);
     }
 
     loadAccounts();
   }, [userData]);
 
-  function checkEmptyAccounts() {
-    if (accounts == null || accounts.length == 0) return "You have no stored accounts. Want to add some?"
-  }
+    async function addAccount(accName: string, bal: string) {
+      const parsedBalance = Number(bal);
+      if (isNaN(parsedBalance)) return alert("Enter a valid Balance");
+
+      const newAccount = {
+        email: userData?.email,
+        accountName: accName,
+        balance: parsedBalance,
+      }
+
+      const res = await fetch(`/api/accounts/${userData?.email}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(newAccount),
+      });
+
+      if (!res.ok) throw new Error("Failed to Add Account");
+    }
 
     return (
       <>
@@ -51,10 +71,40 @@ function Accounts() {
 
           <div className='accounts'>
             <h1>Your Accounts</h1>
+
+            {addAccountFormStatus && (
+              <>
+                <div className='background' onClick={() => setAccountFormStatus(false)} />
+                <form className='addaccountform'>
+                  <h2>Add Account</h2>
+                  <div className='formcontainer'>
+                    <input type='text' placeholder='Account Name' value={accountName} onChange={(e) => setAccountName(e.target.value)} />
+                    <input type='text' placeholder='Balance' value={balance} onChange={(e) => setBalance(e.target.value)} />
+                    <div className='formbuttons'>
+                      <button className='' onClick={async (e) => {
+                        e.preventDefault();
+                        await addAccount(accountName, balance);
+                        setAccountFormStatus(false);
+                        setAccountName("");
+                        setBalance("");
+                      }}>Add Account</button>
+                      <button className='formcancel' onClick={() => setAccountFormStatus(false)}>Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </>
+
+            )}
+
             <div className='currentaccountscontainer'>
               <h3>All Accounts:</h3>
               <div className='noaccounts'>
-                <p>{checkEmptyAccounts()}</p>
+                {accounts == null || accounts.length == 0 && (
+                  <p>You have no stored accounts. Want to add some?</p>
+                )}
+              </div>
+              <div className='currentaccounts'>
+                <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
               </div>
             </div>
           </div>
@@ -67,10 +117,6 @@ interface User {
   email: string;
   firstName: string;
   lastName: string;
-}
-
-interface Accounts {
-  accounts: any[];
 }
 
 export default Accounts;

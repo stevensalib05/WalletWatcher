@@ -4,13 +4,9 @@ import org.springframework.stereotype.Repository;
 import wallet.watcher.server.entities.Account;
 import wallet.watcher.server.storage.Accounts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Repository
 public class AccountDAO {
     private static Accounts accounts = new Accounts();
-    private final Map<String, Accounts> accountsByEmail = new HashMap<>();
 
     public Accounts getAccounts() {
         return accounts;
@@ -21,17 +17,25 @@ public class AccountDAO {
     }
 
     public Accounts getAccountsByEmail(String email) {
-        return accountsByEmail.get(email);
+        Accounts results = new Accounts();
+        for (Account account : accounts.getAccounts()) {
+            if (account.getEmail().equals(email) && account.getEmail() != null) {
+                results.getAccounts().add(account);
+            }
+        }
+
+        return results;
     }
 
     public Account getAccountByEmail(String email, String accountName) {
         Accounts accounts = getAccountsByEmail(email);
-        Account acnt = null;
+        if (accounts == null || accounts.getAccounts() == null) return null;
+
         for (Account account : accounts.getAccounts()) {
             if (account.getAccountName().equals(accountName)) {
-                acnt = account;
+                return account;
             }
         }
-        return acnt;
+        return null;
     }
 }
