@@ -1,8 +1,20 @@
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function Home() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function loadUser() {
+      const res = await fetch("/api/users/me");
+      const userInfo = await res.json();
+      setUserData(userInfo);
+    }
+
+    loadUser();
+  }, []);
 
   return (
     <>
@@ -16,11 +28,17 @@ function Home() {
           </ul>
         </div>
         <div className='welcome'>
-          <h1>Welcome Back, !</h1>
+          <h1>Welcome Back, {userData?.firstName}!</h1>
         </div>
       </div>
     </>
   );
+}
+
+interface User {
+  email: String,
+  firstName: String,
+  lastName: String,
 }
 
 export default Home;

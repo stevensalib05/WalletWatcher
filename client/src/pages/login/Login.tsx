@@ -1,7 +1,6 @@
 import './Login.css';
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const navigate = useNavigate();
@@ -14,9 +13,9 @@ function Login() {
         </div>
         <div className='right-panel'>
           <div className='login-panel'>
-            <GoogleLogin onSuccess={(credentialResponse) => {
-              onLoginOk(credentialResponse);
-              navigate('/home');
+            <GoogleLogin onSuccess={async (credentialResponse) => {
+              const ok = await onLoginOk(credentialResponse);
+              if (ok) navigate('/home');
             }} onError={() => console.log("Temp Failed")} />                
           </div>
         </div>
@@ -26,34 +25,14 @@ function Login() {
 }
 
 async function onLoginOk(res: CredentialResponse) {
-  const jwtDecoder = jwtDecode(res.credential ?? "");
+  const resp = await fetch("/api/auth/google", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ credential: res.credential })
+  });
 
-  const response = await fetch("/api/users/");
-  if (!response.ok) throw new Error("Error " + response.status);
-
-  const userData = await response.json();
-  const jwtEmail = (jwtDecoder as any).email;
-  const jwtFirst = (jwtDecoder as any).given_name;
-  const jwtLast = (jwtDecoder as any).family_name;
-  const user = userData.userList.find((u: { email: String}) => u.email.toLowerCase() === jwtEmail.toLowerCase());
-
-  const userJSON = {
-    email: jwtEmail,
-    firstName: jwtFirst,
-    lastName: jwtLast,
-  }
-
-  console.log(jwtDecoder);
-
-  if (!user) {
-    const req = await fetch("/api/users/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userJSON),
-    });
-
-    if (!req.ok) throw new Error("Error " + req.status);
-  }
+  return resp.ok;
 }
 
 export default Login;
