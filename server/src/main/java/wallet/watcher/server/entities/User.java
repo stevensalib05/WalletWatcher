@@ -1,7 +1,5 @@
 package wallet.watcher.server.entities;
 
-import org.apache.tomcat.util.buf.UEncoder;
-
 public class User {
     private String email;
     private String firstName;

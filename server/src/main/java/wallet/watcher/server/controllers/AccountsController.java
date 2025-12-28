@@ -1,9 +1,58 @@
 package wallet.watcher.server.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import wallet.watcher.server.dao.AccountDAO;
+import wallet.watcher.server.entities.Account;
+import wallet.watcher.server.storage.Accounts;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountsController {
+
+    @Autowired
+    private AccountDAO accountDAO;
+
+    @GetMapping("/")
+    public Accounts getAccounts() {
+        return accountDAO.getAccounts();
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<Accounts> getUserAccounts(@PathVariable String email) {
+        Accounts accounts = accountDAO.getAccountsByEmail(email);
+
+        if (accounts == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        return ResponseEntity.ok(accounts);
+    }
+
+    @PostMapping("/{email}")
+    public ResponseEntity<Object> addAccount(@PathVariable String email, @RequestBody Account account) {
+        accountDAO.addAccount(account);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .buildAndExpand()
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/{email}/{accountName}")
+    public ResponseEntity<Object> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
+        Account acnt = accountDAO.getAccountByEmail(email, accountName);
+        Accounts accounts = accountDAO.getAccountsByEmail(email);
+        if (acnt == null ||accounts == null || accounts.getAccounts() == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        accounts.getAccounts().remove(acnt);
+        return ResponseEntity.noContent().build();
+    }
 }

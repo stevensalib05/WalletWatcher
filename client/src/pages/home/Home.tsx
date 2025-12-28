@@ -21,9 +21,9 @@ function Home() {
       <div className='welcomecontainer'>
         <div className='navbar'>
           <ul className='navbarcontent'>
-            <li className='navbaritem'><a href="">Home</a></li>
-            <li className='navbaritem'><a href="#Accounts">Accounts</a></li>
-            <li className='navbaritem'><a href="#Budget">Budget</a></li>
+            <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
+            <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
+            <li className='navbaritem'><a href="">Budget</a></li>
             <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
           </ul>
         </div>
@@ -36,9 +36,9 @@ function Home() {
 }
 
 interface User {
-  email: String,
-  firstName: String,
-  lastName: String,
+  email: string,
+  firstName: string,
+  lastName: string,
 }
 
 export default Home;
