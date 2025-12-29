@@ -12,28 +12,10 @@ function Accounts() {
   const navigate  = useNavigate();
 
   useEffect(() => {
-    async function loadUser() {
-      const res = await fetch("/api/users/me", { credentials: "include" });
-      if (!res.ok) throw new Error("User is not logged in.");
-      const userInfo: User = await res.json();
-
-      setUserData(userInfo);
-    }
-
     loadUser();
   }, []);
 
   useEffect(() => {
-    async function loadAccounts() {
-      if (!userData?.email) return;
-
-      const res = await fetch(`/api/accounts/${encodeURIComponent(userData.email)}`, { credentials: "include" });
-      if (res.status !== 200) return setAccounts([]);
-      const accountInfo = await res.json();
-
-      setAccounts(accountInfo.accounts);
-    }
-
     loadAccounts();
   }, [userData]);
 
@@ -55,6 +37,25 @@ function Accounts() {
       });
 
       if (!res.ok) throw new Error("Failed to Add Account");
+    }
+
+    async function loadUser() {
+      const res = await fetch("/api/users/me", { credentials: "include" });
+      if (!res.ok) throw new Error("User is not logged in.");
+      const userInfo: User = await res.json();
+
+      setUserData(userInfo);
+    }
+
+
+    async function loadAccounts() {
+      if (!userData?.email) return;
+
+      const res = await fetch(`/api/accounts/${encodeURIComponent(userData.email)}`, { credentials: "include" });
+      if (res.status !== 200) return setAccounts([]);
+      const accountInfo = await res.json();
+
+      setAccounts(accountInfo.accounts);
     }
 
     return (
@@ -84,6 +85,7 @@ function Accounts() {
                       <button className='' onClick={async (e) => {
                         e.preventDefault();
                         await addAccount(accountName, balance);
+                        await loadAccounts();
                         setAccountFormStatus(false);
                         setAccountName("");
                         setBalance("");
@@ -104,8 +106,14 @@ function Accounts() {
                 )}
               </div>
               <div className='currentaccounts'>
-                <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
+                {accounts?.map((account, index) => (
+                  <div key={index} className='accountbox'>
+                    <h3>{account.accountName}</h3>
+                    <p>Current Balance: ${account.balance}</p>
+                  </div>
+                ))}
               </div>
+              <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
             </div>
           </div>
         </div>

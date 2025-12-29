@@ -15,6 +15,7 @@
   max-width: 100vh;
   border: 1px solid #1b1b1b;
   border-radius: 10px;
+  box-shadow: 0 0 5px #101010;
 }
 
 .noaccounts {
@@ -53,6 +54,8 @@
 
   border: 1px solid #ffffff;
   border-radius: 10px;
+
+  animation: formPageEnter 0.4s ease-out forwards;
 }
 
 .formcontainer {
@@ -61,6 +64,15 @@
   gap: 24px;
   padding-top: 30px;
   justify-content: center;
+
+}
+
+@keyframes formPageEnter {
+  from {
+    opacity: 0;
+  } to {
+    opacity: 1;
+  }
 }
 
 .formcontainer input {
@@ -96,4 +108,17 @@
 
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
+}
+
+.currentaccounts {
+  display: flex;
+  flex-direction: row;
+}
+
+.accountbox {
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  margin: 10px;
 }
