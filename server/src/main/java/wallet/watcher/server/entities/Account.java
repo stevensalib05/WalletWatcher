@@ -8,7 +8,7 @@ public class Account {
     public Account() {
 
     }
-    
+
     public Account(String email, String accountName, Integer balance) {
         this.email = email;
         this.accountName = accountName;

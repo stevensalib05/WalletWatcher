@@ -16,9 +16,9 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth//google").permitAll()
+                        .requestMatchers("/","/login", "/oauth2/**","/error","/api/auth/google").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/api/users/me").authenticated()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 );
         return http.build();
