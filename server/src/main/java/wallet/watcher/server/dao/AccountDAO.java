@@ -38,4 +38,10 @@ public class AccountDAO {
         }
         return null;
     }
+
+    public boolean deleteAccount(String email, String accountName) {
+        if (accounts == null || accounts.getAccounts() == null) return false;
+
+        return accounts.getAccounts().removeIf(account -> account.getEmail().equals(email) && account.getAccountName().equals(accountName));
+    }
 }

@@ -58,6 +58,17 @@ function Accounts() {
       setAccounts(accountInfo.accounts);
     }
 
+    async function deleteAccount(accName: string) {
+      if (!userData?.email) return;
+
+      const res = await fetch(`/api/accounts/${encodeURIComponent(userData.email)}/${encodeURIComponent(accName)}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Error Deleting Account.");
+    }
+
     return (
       <>
         <div className='accountscontainer'>
@@ -110,6 +121,10 @@ function Accounts() {
                   <div key={index} className='accountbox'>
                     <h3>{account.accountName}</h3>
                     <p>Current Balance: ${account.balance}</p>
+                    <button id='deleteaccount' onClick={async () => {
+                      await deleteAccount(account.accountName);
+                      await loadAccounts();
+                    }}>Delete</button>
                   </div>
                 ))}
               </div>

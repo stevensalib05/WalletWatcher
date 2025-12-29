@@ -47,13 +47,15 @@ public class AccountsController {
 
     @DeleteMapping("/{email}/{accountName}")
     public ResponseEntity<Object> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
-        Account acnt = accountDAO.getAccountByEmail(email, accountName);
         Accounts accounts = accountDAO.getAccountsByEmail(email);
-        if (acnt == null ||accounts == null || accounts.getAccounts() == null) {
+
+        if (accounts == null || accounts.getAccounts().isEmpty()) {
             return ResponseEntity.status(404).build();
         }
 
-        accounts.getAccounts().remove(acnt);
+        boolean removed = accountDAO.deleteAccount(email, accountName);
+
+        if (!removed) return ResponseEntity.status(404).build();
         return ResponseEntity.noContent().build();
     }
 }
