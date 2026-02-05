@@ -4,15 +4,17 @@ public class Account {
     private String email;
     private String accountName;
     private Integer balance;
+    private String accountType;
 
     public Account() {
 
     }
 
-    public Account(String email, String accountName, Integer balance) {
+    public Account(String email, String accountName, Integer balance, String accountType) {
         this.email = email;
         this.accountName = accountName;
         this.balance = balance;
+        this.accountType = accountType;
     }
 
     public String getEmail() {
@@ -27,6 +29,10 @@ public class Account {
         return accountName;
     }
 
+    public String getAccountType() {
+        return accountType;
+    }
+
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
@@ -37,6 +43,10 @@ public class Account {
 
     public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     @Override

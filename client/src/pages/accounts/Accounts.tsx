@@ -6,6 +6,7 @@ function Accounts() {
   const [userData, setUserData] = useState<User | null>(null);
   const [accounts, setAccounts] = useState<any[] | null>([]);
   const [addAccountFormStatus, setAccountFormStatus] = useState<boolean | null>(null);
+  const [accountType, setAccountType] = useState<string>("");
 
   const [accountName, setAccountName] = useState<string>("");
   const [balance, setBalance] = useState<string>("");
@@ -19,7 +20,7 @@ function Accounts() {
     loadAccounts();
   }, [userData]);
 
-    async function addAccount(accName: string, bal: string) {
+    async function addAccount(accName: string, bal: string, accType: string) {
       const parsedBalance = Number(bal);
       if (isNaN(parsedBalance)) return alert("Enter a valid Balance");
 
@@ -27,6 +28,7 @@ function Accounts() {
         email: userData?.email,
         accountName: accName,
         balance: parsedBalance,
+        accountType: accType,
       }
 
       const res = await fetch(`/api/accounts/${userData?.email}`, {
@@ -92,10 +94,15 @@ function Accounts() {
                   <div className='formcontainer'>
                     <input type='text' placeholder='Account Name' value={accountName} onChange={(e) => setAccountName(e.target.value)} />
                     <input type='text' placeholder='Balance' value={balance} onChange={(e) => setBalance(e.target.value)} />
+                    <select className='accounttype' aria-placeholder='Asset or Liability' value={accountType} onChange={(e) => setAccountType(e.target.value)}>
+                      <option value="---Select an Option---">---Select an Option---</option>
+                      <option value="Asset">Asset</option>
+                      <option value="Liability">Liability</option>
+                    </select>
                     <div className='formbuttons'>
                       <button className='' onClick={async (e) => {
                         e.preventDefault();
-                        await addAccount(accountName, balance);
+                        await addAccount(accountName, balance, accountType);
                         await loadAccounts();
                         setAccountFormStatus(false);
                         setAccountName("");
@@ -112,12 +119,63 @@ function Accounts() {
             <div className='currentaccountscontainer'>
               <h3>All Accounts:</h3>
               <div className='noaccounts'>
-                {accounts == null || accounts.length == 0 && (
+                {(accounts == null || accounts.filter((account) => account.accountType !== "Liability").length === 0) && (
                   <p>You have no stored accounts. Want to add some?</p>
                 )}
               </div>
               <div className='currentaccounts'>
-                {accounts?.map((account, index) => (
+                {accounts?.filter((account) => account.accountType !== "Liability").map((account, index) => (
+                  <div key={index} className='accountbox'>
+                    <h3>{account.accountName}</h3>
+                    <p>Current Balance: ${account.balance}</p>
+                    <button id='deleteaccount' onClick={async () => {
+                      await deleteAccount(account.accountName);
+                      await loadAccounts();
+                    }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+              <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
+            </div>
+
+            {addAccountFormStatus && (
+              <>
+                <div className='background' onClick={() => setAccountFormStatus(false)} />
+                <form className='addaccountform'>
+                  <h2>Add Account</h2>
+                  <div className='formcontainer'>
+                    <input type='text' placeholder='Account Name' value={accountName} onChange={(e) => setAccountName(e.target.value)} />
+                    <input type='text' placeholder='Balance' value={balance} onChange={(e) => setBalance(e.target.value)} />
+                    <select className='accounttype' aria-placeholder='Asset or Liability' value={accountType} onChange={(e) => setAccountType(e.target.value)}>
+                      <option value="---Select an Option---">---Select an Option---</option>
+                      <option value="Asset">Asset</option>
+                      <option value="Liability">Liability</option>
+                    </select>
+                    <div className='formbuttons'>
+                      <button className='' onClick={async (e) => {
+                        e.preventDefault();
+                        await addAccount(accountName, balance, accountType);
+                        await loadAccounts();
+                        setAccountFormStatus(false);
+                        setAccountName("");
+                        setBalance("");
+                      }}>Add Account</button>
+                      <button className='formcancel' onClick={() => setAccountFormStatus(false)}>Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </>
+            )}
+
+            <div className='borrowingaccountscontainer'>
+              <h3>Borrowing Accounts:</h3>
+              <div className='noaccounts'>
+                {(accounts == null || accounts.filter((account) => account.accountType === "Liability").length === 0) && (
+                  <p>Good on ya for not being in debt!</p>
+                )}
+              </div>
+              <div className='currentaccounts'>
+                {accounts?.filter((account) => account.accountType === "Liability").map((account, index) => (
                   <div key={index} className='accountbox'>
                     <h3>{account.accountName}</h3>
                     <p>Current Balance: ${account.balance}</p>

@@ -9,8 +9,10 @@
   padding-left: 20px;
 }
 
-.currentaccountscontainer {
+.currentaccountscontainer, .borrowingaccountscontainer {
+  float: left;
   padding: 15px;
+  width: 600px;
   align-items: center;
   max-width: 80vh;
   border: 1px solid #1b1b1b;
@@ -56,6 +58,14 @@
   border-radius: 10px;
 
   animation: formPageEnter 0.4s ease-out forwards;
+}
+
+.addaccountform select {
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  height: 50px;
+  font-size: medium;
+  text-align: center;
 }
 
 .formcontainer {
