@@ -1,8 +1,23 @@
+.incomecontainer {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #000000, #3a3a3a, #000000);
+    display: flex;
+    flex-direction: column;
+}
+
+.incomecontent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
 .income {
     justify-content: left;
     align-items: center;
     padding-left: 40px;
-    width: 40%;
+    width: 45%;
 }
 
 .incomeInput {
@@ -10,6 +25,7 @@
     align-items: center;
     padding: 20px;
     width: 20%;
+    height: 100%;
     margin: 20px 20px 0 auto;
     border: 1px solid #ffffff;
     border-radius: 10px;
@@ -34,9 +50,35 @@
     border-radius: 6px;
 }
 
-.incomecontainer {
+.incomeInput > label {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.incomeType {
+    appearance: none;
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 180px;
+}
+
+.incomeType:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+#addIncomeButton {
+    border: 1px solid #ffffff;
+}
+
+#addIncomeButton:hover {
+    box-shadow: 0 0 5px #ffffff;
 }
 
 .navbar {

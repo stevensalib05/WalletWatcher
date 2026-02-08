@@ -5,8 +5,13 @@ import { useState } from 'react';
 function Income() {
     const navigate = useNavigate();
     const [incomeType, setIncomeType] = useState<string>('');
+
+    function addIncome() {
+      
+    }
+
     return (
-      <>
+      <div className='incomecontainer'>
         <div className='navbar'>
           <ul className='navbarcontent'>
             <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
@@ -17,8 +22,7 @@ function Income() {
           </ul>
         </div>
 
-
-        <div className='incomecontainer'>
+        <div className='incomecontent'>
           <div className='income'>
             <h1>Income</h1>
             <p>
@@ -29,47 +33,50 @@ function Income() {
           </div>
           <div className='incomeInput'>
             <h2>Income Form</h2>
-            <label>
-              Income Type &emsp;
-              <select className='incomeType' aria-placeholder='Hourly or Salary' value={incomeType} onChange={(e) => {setIncomeType(e.target.value)}}>
-                <option value='---Select an Option---'>---Select an Option---</option>
-                <option value='Hourly'>Hourly</option>
-                <option value='Salary'>Salary</option>
-              </select>
-            </label>
+            <form onSubmit={addIncome}>
+              <label>
+                Income Type &emsp;
+                <select className='incomeType' aria-placeholder='Hourly or Salary' value={incomeType} onChange={(e) => {setIncomeType(e.target.value)}}>
+                  <option value='---Select an Option---'>---Select an Option---</option>
+                  <option value='Hourly'>Hourly</option>
+                  <option value='Salary'>Salary</option>
+                </select>
+              </label>
 
-            {incomeType === 'Hourly' && (
-              <div className='incomeHourlyFields'>
-                <label>
-                  Income name &ensp;
-                  <input type='text' name='incomeName' placeholder='e.g., Part-time job' />
-                </label><br />
-                <label>
-                  Amount ($/h) &emsp;
-                  <input type='number' name='incomeAmount' placeholder='e.g., 20' />
-                </label><br />
-                <label>
-                  Hours/Week &ensp; &ensp;
-                  <input type='number' name='incomeHours' placeholder='e.g., 25' />
-                </label><br />
-              </div>
-            )}
+              {incomeType === 'Hourly' && (
+                <div className='incomeHourlyFields'>
+                  <label>
+                    Income name &ensp;
+                    <input type='text' name='incomeName' placeholder='e.g., Part-time job' />
+                  </label><br />
+                  <label>
+                    Amount ($/h) &emsp;
+                    <input type='number' name='incomeAmount' placeholder='e.g., 20' />
+                  </label><br />
+                  <label>
+                    Hours/Week &ensp; &ensp;
+                    <input type='number' name='incomeHours' placeholder='e.g., 25' />
+                  </label><br />
+                </div>
+              )}
 
-            {incomeType === 'Salary' && (
-              <div className='incomeSalaryFields'>
-                <label>
-                  Income Name &ensp;
-                  <input type='text' name='incomeName' placeholder='e.g., Full Time Babysitting' />
-                </label><br />
-                <label>
-                  Amount ($) &emsp; &ensp;
-                  <input type='number' name='incomeAmount' placeholder='65000' />
-                </label><br />
-              </div>
-            )}
+              {incomeType === 'Salary' && (
+                <div className='incomeSalaryFields'>
+                  <label>
+                    Income Name &ensp;
+                    <input type='text' name='incomeName' placeholder='e.g., Full Time Babysitting' />
+                  </label><br />
+                  <label>
+                    Amount ($) &emsp; &ensp;
+                    <input type='number' name='incomeAmount' placeholder='65000' />
+                  </label><br />
+                </div>
+              )}
+              <button type='submit' id='addIncomeButton'> Add Income</button>
+            </form>
           </div>
         </div>
-      </>
+      </div>
     );
 }
 
