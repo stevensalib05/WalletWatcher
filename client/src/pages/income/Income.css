@@ -9,10 +9,29 @@
     justify-content: right;
     align-items: center;
     padding: 20px;
-    width: 40%;
-    margin: auto;
+    width: 20%;
+    margin: 20px 20px 0 auto;
     border: 1px solid #ffffff;
     border-radius: 10px;
+}
+
+.incomeHourlyFields, .incomeSalaryFields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.incomeHourlyFields label, .incomeSalaryFields label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.incomeHourlyFields input, .incomeSalaryFields input {
+    font-size: 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
 }
 
 .incomecontainer {
