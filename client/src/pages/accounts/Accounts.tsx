@@ -78,7 +78,8 @@ function Accounts() {
             <ul className='navbarcontent'>
               <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
               <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
-              <li className='navbaritem'><a href="">Budget</a></li>
+              <li className='navbaritem'><a href="" onClick={() => navigate('/income')}>Income</a></li>
+              <li className='navbaritem'><a href="" onClick={() => navigate('/budget')}>Budget</a></li>
               <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
             </ul>
           </div>
@@ -117,7 +118,7 @@ function Accounts() {
             )}
 
             <div className='currentaccountscontainer'>
-              <h3>All Accounts:</h3>
+              <h3>Asset Accounts:</h3>
               <div className='noaccounts'>
                 {(accounts == null || accounts.filter((account) => account.accountType !== "Liability").length === 0) && (
                   <p>You have no stored accounts. Want to add some?</p>
