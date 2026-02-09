@@ -75,6 +75,8 @@
 
 #addIncomeButton {
     border: 1px solid #ffffff;
+    display: block;
+    margin: 20px auto 0;
 }
 
 #addIncomeButton:hover {
