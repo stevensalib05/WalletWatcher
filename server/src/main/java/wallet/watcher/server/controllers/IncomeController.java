@@ -53,11 +53,10 @@ public class IncomeController {
     // Deleting Income by the user email and income name.
     @DeleteMapping("/{email}/{incomeName}")
     public ResponseEntity<Void> deleteIncome(@PathVariable String email, @PathVariable String incomeName) {
-        boolean income = incomeRepository.existsByEmailAndIncomeName(email, incomeName);
+        long income = incomeRepository.deleteByEmailAndIncomeName(email, incomeName);
 
-        if (!income) return ResponseEntity.status(404).build();
+        if (income == 0) return ResponseEntity.status(404).build();
 
-        incomeRepository.deleteByEmailAndIncomeName(email, incomeName);
         return ResponseEntity.noContent().build();
     }
 }

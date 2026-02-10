@@ -53,11 +53,10 @@ public class AccountsController {
     // Deleting an account by its user and the account name.
     @DeleteMapping("/{email}/{accountName}")
     public ResponseEntity<Void> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
-        boolean account = accountRepository.existsByEmailAndAccountName(email, accountName);
+        long account = accountRepository.deleteByEmailAndAccountName(email, accountName);
 
-        if(!account) return ResponseEntity.status(404).build();
+        if(account == 0) return ResponseEntity.status(404).build();
 
-        accountRepository.deleteByEmailAndAccountName(email, accountName);
         return ResponseEntity.noContent().build();
     }
 }

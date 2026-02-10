@@ -57,7 +57,7 @@ function Accounts() {
       if (res.status !== 200) return setAccounts([]);
       const accountInfo = await res.json();
 
-      setAccounts(accountInfo.accounts);
+      setAccounts(accountInfo);
     }
 
     async function deleteAccount(accName: string) {
