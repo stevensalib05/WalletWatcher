@@ -10,4 +10,5 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
     List<Income> findByEmail(String email);
     Optional<Income> findByEmailAndIncomeName(String email, String incomeName);
     void deleteByEmailAndIncomeName(String email, String incomeName);
+    boolean existsByEmailAndIncomeName(String email, String incomeName);
 }

@@ -40,6 +40,7 @@ public class AccountsController {
     public ResponseEntity<Object> addAccount(@PathVariable String email, @RequestBody Account account) {
         account.setEmail(email);
         Account newAccount = accountRepository.save(account);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -51,10 +52,11 @@ public class AccountsController {
 
     // Deleting an account by its user and the account name.
     @DeleteMapping("/{email}/{accountName}")
-    public ResponseEntity<Object> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
+    public ResponseEntity<Void> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
         boolean account = accountRepository.existsByEmailAndAccountName(email, accountName);
 
         if(!account) return ResponseEntity.status(404).build();
+
         accountRepository.deleteByEmailAndAccountName(email, accountName);
         return ResponseEntity.noContent().build();
     }
