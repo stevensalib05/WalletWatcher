@@ -1,7 +1,17 @@
 package wallet.watcher.server.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="users")
 public class User {
+    @Id
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String firstName;
     private String lastName;
 

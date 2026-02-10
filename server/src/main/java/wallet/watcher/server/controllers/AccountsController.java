@@ -1,61 +1,61 @@
 package wallet.watcher.server.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import wallet.watcher.server.dao.AccountDAO;
+import wallet.watcher.server.dao.AccountRepository;
 import wallet.watcher.server.entities.Account;
-import wallet.watcher.server.storage.Accounts;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountsController {
 
-    @Autowired
-    private AccountDAO accountDAO;
+    private final AccountRepository accountRepository;
 
-    @GetMapping("/")
-    public Accounts getAccounts() {
-        return accountDAO.getAccounts();
+    public AccountsController(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<Accounts> getUserAccounts(@PathVariable String email) {
-        Accounts accounts = accountDAO.getAccountsByEmail(email);
+    // Get all accounts;
+    @GetMapping("/")
+    public List<Account> getAccounts() {
+        return accountRepository.findAll();
+    }
 
-        if (accounts == null) {
-            return ResponseEntity.status(404).build();
-        }
+    // Gets all accounts belonging to a specific user.
+    @GetMapping("/{email}")
+    public ResponseEntity<List<Account>> getUserAccounts(@PathVariable String email) {
+        List<Account> accounts = accountRepository.findByEmail(email);
+
+        if (accounts.isEmpty()) return ResponseEntity.status(404).build();
 
         return ResponseEntity.ok(accounts);
     }
 
+    // Adds an account to a user's profile.
     @PostMapping("/{email}")
     public ResponseEntity<Object> addAccount(@PathVariable String email, @RequestBody Account account) {
         account.setEmail(email);
-        accountDAO.addAccount(account);
+        Account newAccount = accountRepository.save(account);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .buildAndExpand()
+                .path("/{id}")
+                .buildAndExpand(newAccount.getId())
                 .toUri();
 
         return ResponseEntity.created(location).build();
     }
 
+    // Deleting an account by its user and the account name.
     @DeleteMapping("/{email}/{accountName}")
     public ResponseEntity<Object> deleteAccount(@PathVariable String email, @PathVariable String accountName) {
-        Accounts accounts = accountDAO.getAccountsByEmail(email);
+        boolean account = accountRepository.existsByEmailAndAccountName(email, accountName);
 
-        if (accounts == null || accounts.getAccounts().isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-
-        boolean removed = accountDAO.deleteAccount(email, accountName);
-
-        if (!removed) return ResponseEntity.status(404).build();
+        if(!account) return ResponseEntity.status(404).build();
+        accountRepository.deleteByEmailAndAccountName(email, accountName);
         return ResponseEntity.noContent().build();
     }
 }

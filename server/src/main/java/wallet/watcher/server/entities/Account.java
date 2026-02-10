@@ -1,9 +1,19 @@
 package wallet.watcher.server.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="accounts")
 public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable=false)
     private String email;
+    @Column(nullable=false)
     private String accountName;
     private Integer balance;
+    @Column(nullable=false)
     private String accountType;
 
     public Account() {
@@ -15,6 +25,10 @@ public class Account {
         this.accountName = accountName;
         this.balance = balance;
         this.accountType = accountType;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -29,16 +43,20 @@ public class Account {
         return accountName;
     }
 
+    public Integer getBalance() {
+        return balance;
+    }
+
     public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Integer getBalance() {
-        return balance;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public void setBalance(Integer balance) {
@@ -51,6 +69,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account [email=" + email + ", accountName=" + accountName + ", balance=" + balance + "]";
+        return "Account [id=" + id + ", email=" + email + ", accountName=" + accountName + ", balance=" + balance + "]";
     }
 }
