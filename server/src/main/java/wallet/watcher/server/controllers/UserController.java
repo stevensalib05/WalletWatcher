@@ -1,49 +1,74 @@
 package wallet.watcher.server.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import wallet.watcher.server.dao.UserDAO;
+import wallet.watcher.server.dao.UserRepository;
 import wallet.watcher.server.entities.User;
-import wallet.watcher.server.storage.Users;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserDAO userDAO;
+    private final UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    private GoogleIdToken.Payload verifyToken(String token) throws Exception {
+
+        NetHttpTransport transport = new NetHttpTransport();
+        JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        GoogleIdTokenVerifier verifier =
+                new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+                        .setAudience(List.of("YOUR_GOOGLE_CLIENT_ID"))
+                        .build();
+
+        GoogleIdToken idToken = verifier.verify(token);
+
+        if (idToken == null)
+            throw new RuntimeException("Invalid Google token");
+
+        return idToken.getPayload();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Principal principal) throws Exception {
+        if (principal == null) return ResponseEntity.status(401).build();
+
+        return userRepository.findById(principal.getName())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(404).build());
+    }
 
     // GET Method
     @GetMapping("/")
-    public Users getUsers() {
-        return userDAO.getAllUsers();
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
     // POST Method
     @PostMapping("/")
-    public ResponseEntity<Object>
-    addUser(@RequestBody User user) {
-        userDAO.addUser(user);
+    public ResponseEntity<Void> addUser(@RequestBody User user) {
+        User addedUser = userRepository.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{email}")
-                .buildAndExpand(user.getEmail())
+                .buildAndExpand(addedUser.getEmail())
                 .toUri();
         return ResponseEntity.created(location).build();
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(Principal principal) {
-        if (principal == null) return ResponseEntity.status(401).build();
-
-        String email = principal.getName();
-        User user = userDAO.getAllUsers().getUserList().stream().filter(u -> email.equals(u.getEmail())).findFirst().orElse(null);
-        if (user == null) return ResponseEntity.status(404).build();
-        return ResponseEntity.ok(user);
     }
 }
