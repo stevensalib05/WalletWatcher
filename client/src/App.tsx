@@ -8,6 +8,7 @@ import Auth from './Auth.tsx';
 import Income from './pages/income/Income.tsx';
 import Goals from './pages/goals/Goals.tsx';
 import Budget from './pages/budget/Budget.tsx';
+import Expenses from './pages/expenses/Expenses.tsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/income" element={<Income />} />
         <Route path="/goals" element={<Goals />} />
+        <Route path="/expenses" element={<Expenses />} />
         <Route path="/budget" element={<Budget />} />
       </Route>
     </Routes>

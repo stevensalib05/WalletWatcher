@@ -1,0 +1,12 @@
+.expensescontainer {
+    min-height: 100vh;
+    background: linear-gradient(0deg, #131313, #2f2f2f);
+    display: flex;
+    flex-direction: column;
+}
+
+.expenses {
+  justify-content: left;
+  align-items: center;
+  padding-left: 40px;
+}

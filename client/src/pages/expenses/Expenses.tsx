@@ -1,24 +1,12 @@
-import './Home.css';
+import './Expenses.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
-function Home() {
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState<User | null>(null);
-
-  useEffect(() => {
-    async function loadUser() {
-      const res = await fetch("/api/users/me");
-      const userInfo = await res.json();
-      setUserData(userInfo);
-    }
-
-    loadUser();
-  }, []);
+function Expenses() {
+const navigate = useNavigate();
 
   return (
     <>
-      <div className='welcomecontainer'>
+      <div className="expensescontainer">
         <div className='navbar'>
           <ul className='navbarcontent'>
             <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
@@ -30,18 +18,13 @@ function Home() {
             <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
           </ul>
         </div>
-        <div className='welcome'>
-          <h1>Welcome Back, {userData?.firstName}!</h1>
-        </div>
+
+          <div className='expenses'>
+            <h1>Expenses</h1>
+          </div>
       </div>
     </>
-  );
+  )
 }
 
-interface User {
-  email: string,
-  firstName: string,
-  lastName: string,
-}
-
-export default Home;
+export default Expenses;

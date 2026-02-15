@@ -48,6 +48,6 @@ public class Goal {
 
     @Override
     public String toString() {
-        return "Goal [id=" + id + " , goal=" + goal + "]";
+        return "Goal [id=" + id + ", goal=" + goal + "]";
     }
 }
