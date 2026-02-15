@@ -16,6 +16,7 @@ function Income() {
     }, []);
 
     useEffect(() => {
+      if (!userData?.email) return;
       loadIncomes()
     }, [userData]);
 
@@ -141,7 +142,7 @@ function Income() {
             )}
 
             {incomeData.filter(income => income.incomeType === "Hourly").map((income) => (
-              <div className='incomeItem'>
+              <div key={income.id} className='incomeItem'>
                 <h3>{income.incomeName}</h3>
                 <div className='incomeDetails'>
                   <p>Type of Income: {income.incomeType}</p>
@@ -153,7 +154,7 @@ function Income() {
             ))}
 
             {incomeData.filter(income => income.incomeType === "Salary").map((income) => (
-              <div className='incomeItem'>
+              <div key={income.id} className='incomeItem'>
                 <h3>{income.incomeName}</h3>
                 <div className='incomeDetails'>
                   <p>Type of Income: {income.incomeType}</p>

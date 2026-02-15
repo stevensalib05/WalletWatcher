@@ -1,11 +1,62 @@
 import './Goals.css';
 import { useNavigate } from 'react-router-dom';
+import {  useState, useEffect } from 'react';
 
 function Goals() {
     const navigate = useNavigate();
 
-    async function addGoal() {
+    const [userData, setUserData] = useState<User | null>(null);
+    const [goalData, setGoalData] = useState<any[]>([]);
+    const [goal, setGoal] = useState<string>("");
 
+    useEffect(() => {
+      loadUser();
+    }, []);
+
+    useEffect(() => {
+      if (!userData?.email) return;
+      loadGoals()
+    }, [userData]);
+
+    async function loadUser() {
+      const res = await fetch("/api/users/me", { credentials: "include" });
+      if (!res.ok) throw new Error("User is not logged in.");
+      const userInfo: User = await res.json();
+
+      setUserData(userInfo);
+    }
+
+    async function addGoal() {
+      const data = {
+        email: userData?.email,
+        goal: goal,
+      };
+
+      const res = await fetch(`/api/goals/${userData?.email}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Failed to Add Goal.");
+    }
+
+    async function loadGoals() {
+      const res = await fetch(`/api/goals/${userData?.email}`, { credentials: "include" });
+      const data = await res.json();
+      setGoalData(data);
+    }
+
+    async function deleteGoal(id: number) {
+      const res = await fetch(`/api/goals/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to Delete Goal.");
+
+      loadGoals();
     }
 
     return (
@@ -27,7 +78,7 @@ function Goals() {
             <p>On this page, you can just add a list of goals that you want your budget to achieve (i.e: Save $5000 to take a massive vacation). This will be read by the AI to help you create a budget accordingly.</p>
             <form className='goalsform' onSubmit={addGoal}>
               <div className='goalsinput'>
-                <input id='goalinput' type='text' placeholder='Enter your Budget Goals Here...'></input>
+                <input id='goalinput' type='text' placeholder='Enter your Budget Goals Here...' value={goal} onChange={(e) => setGoal(e.target.value)}></input>
                 <button id='addgoalbutton' type='submit'>Add Goal</button>
               </div>
             </form>
@@ -35,13 +86,25 @@ function Goals() {
             <div className='currentgoals'>
               <h3>Current Goals:</h3>
               <div className='goalslist'>
-                
+                {goalData.map((goal) => (
+                  <div key={goal.id} className='goallistitem'>
+                    <p>Goal ID: {goal.id}</p>
+                    <p>Goal: {goal.goal}</p>
+                    <button className='deletegoalbutton' onClick={() => deleteGoal(goal.id)}>Delete</button>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </>
     )
+}
+
+interface User {
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 
 export default Goals;

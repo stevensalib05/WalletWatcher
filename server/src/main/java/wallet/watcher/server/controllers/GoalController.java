@@ -52,4 +52,13 @@ public class GoalController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGoalById(@PathVariable Long id) {
+        long deletedGoal = goalRepository.deleteById(id);
+
+        if (deletedGoal == 0) return ResponseEntity.status(404).build();
+
+        return ResponseEntity.noContent().build();
+    }
 }

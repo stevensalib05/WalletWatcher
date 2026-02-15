@@ -17,6 +17,7 @@ function Accounts() {
   }, []);
 
   useEffect(() => {
+    if (!userData?.email) return;
     loadAccounts();
   }, [userData]);
 

@@ -36,3 +36,31 @@
 #addgoalbutton:hover {
   box-shadow: 0 0 5px #ffffff;
 }
+
+.goallistitem {
+    display: flex;
+    align-items: center;
+    border: 1px solid #1b1b1b;
+    box-shadow: 0 0 5px #1d1d1d;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 97%;
+    gap: 20px;
+}
+
+.goallistitem p {
+    margin: 0;
+}
+
+.deletegoalbutton {
+    border: 1px solid #a60000;
+    color: #a60000;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+.deletegoalbutton:hover {
+    background-color: rgba(200, 0, 0, 0.1);
+    box-shadow: 0 0 10px #a60000;
+}
