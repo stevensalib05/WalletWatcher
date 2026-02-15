@@ -45,6 +45,9 @@ function Expenses() {
       frequency: frequency,
     };
 
+    if (name === '' || name == null || category === '' || category == null || frequency === '' || frequency == null) return alert("Please fill out all fields.");
+    if (amount <= 0 || isNaN(amount)) return alert("Please enter a valid amount.");
+
     const res = await fetch(`/api/expenses/${userData?.email}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

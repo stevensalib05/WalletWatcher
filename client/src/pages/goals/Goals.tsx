@@ -32,6 +32,8 @@ function Goals() {
         goal: goal,
       };
 
+      if (goal === '' || goal == null) return alert("Please enter a valid goal.");
+
       const res = await fetch(`/api/goals/${userData?.email}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

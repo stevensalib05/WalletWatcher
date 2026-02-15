@@ -37,6 +37,9 @@ function Income() {
         weeklyHours: weeklyHours,
       };
 
+      if (incomeType === '' || incomeName === '' || incomeType == null || incomeName == null) return alert("Please fill out all required fields.");
+      if (amount <= 0 || isNaN(amount)) return alert("Please enter a valid amount.");
+
       const res = await fetch(`/api/incomes/${userData?.email}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
