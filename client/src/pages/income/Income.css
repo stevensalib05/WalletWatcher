@@ -23,6 +23,7 @@
 .income {
     justify-content: left;
     align-items: center;
+    padding-left: 40px;
     width: 100%;
     max-width: 900px;
 }
@@ -32,7 +33,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    width: 98%;
+    width: 94%;
     border: 1px solid #1b1b1b;
     border-radius: 10px;
     box-shadow: 0 0 5px #101010;
@@ -86,6 +87,7 @@
 
 .incomelist {
     width: 100%;
+    padding-left: 40px;
 }
 
 @media (max-width: 900px) {
