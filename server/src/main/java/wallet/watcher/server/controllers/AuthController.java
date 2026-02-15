@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
-import wallet.watcher.server.dao.UserRepository;
+import wallet.watcher.server.repositories.UserRepository;
 import wallet.watcher.server.entities.User;
 
 import java.util.List;

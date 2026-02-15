@@ -1,4 +1,4 @@
-package wallet.watcher.server.dao;
+package wallet.watcher.server.repositories;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

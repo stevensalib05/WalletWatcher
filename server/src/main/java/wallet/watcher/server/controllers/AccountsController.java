@@ -3,7 +3,7 @@ package wallet.watcher.server.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import wallet.watcher.server.dao.AccountRepository;
+import wallet.watcher.server.repositories.AccountRepository;
 import wallet.watcher.server.entities.Account;
 
 import java.net.URI;
