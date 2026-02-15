@@ -1,6 +1,6 @@
 .budgetscontainer {
     min-height: 100vh;
-    background: linear-gradient(0deg, #000000, #3a3a3a);
+    background: linear-gradient(0deg, #131313, #2f2f2f);
     display: flex;
     flex-direction: column;
 }
