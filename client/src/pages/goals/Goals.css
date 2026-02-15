@@ -1,0 +1,38 @@
+.goalscontainer {
+    min-height: 100vh;
+    background: linear-gradient(235deg, #000000, #3a3a3a);
+    display: flex;
+    flex-direction: column;
+}
+
+.goals {
+  justify-content: left;
+  align-items: center;
+  padding-left: 40px;
+}
+
+.goalsinput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+#goalinput {
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    height: 40px;
+    text-align: center;
+    width: 80%;
+}
+
+#addgoalbutton {
+  border: 1px solid #ffffff;
+  margin-left: auto;
+  margin-right: 200px;
+}
+
+#addgoalbutton:hover {
+  box-shadow: 0 0 5px #ffffff;
+}
