@@ -2,6 +2,7 @@ package wallet.watcher.server.budget;
 
 import java.util.List;
 
+// This class serves to just format the output so that the LLM can format this into a JSON format for the frontend to callback on.
 public class BudgetPlan {
     public static class CategoryItem {
         private String category;
