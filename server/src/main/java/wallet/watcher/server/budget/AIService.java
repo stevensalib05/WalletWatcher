@@ -3,7 +3,7 @@ package wallet.watcher.server.budget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openai.client.OpenAIClient;
 import com.openai.models.ChatModel;
-import com.openai.models.responses.ResponseCreateParams;
+import com.openai.models.responses.*;
 import org.springframework.stereotype.Service;
 
 // This entire class is just to pull the BudgetSnapshot from the user. Gonna be used in the BudgetPlanController later.
@@ -27,7 +27,7 @@ public class AIService {
             snapshotJSON = objectMapper.writeValueAsString(budgetSnapshot);
         } catch(Exception e) { throw new Exception(e); }
 
-        // This is the prompt that will be used to build 
+        // This is the prompt that will be used to build
         String prompt = """
                 Create a MONTHLY Budget Plan for this snapshot.
                 Return a JSON Formatted in this EXACT way, no modifications allowed for this format:
@@ -46,13 +46,28 @@ public class AIService {
                 """.formatted(snapshotJSON);
 
         // Parameters for the Chat Request with OpenAI.
-        ResponseCreateParams params = ResponseCreateParams.builder()
+        StructuredResponseCreateParams<BudgetPlan> params = ResponseCreateParams.builder()
                 .model(ChatModel.GPT_5_2)
                 .input(prompt)
+                .text(BudgetPlan.class)
                 .build();
 
+        StructuredResponse<BudgetPlan> res = openAIClient.responses().create(params);
 
+        return res.output().stream()
+                .filter(StructuredResponseOutputItem::isMessage)
+                .map(StructuredResponseOutputItem::asMessage)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No message returned"))
+                .content().stream()
+                .filter(StructuredResponseOutputMessage.Content::isOutputText)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("OpenAI didn't return the structured Budget Plann"))
+                .asOutputText();
+    }
 
-        return new BudgetPlan();
+    private String toJson(Object o) {
+        try { return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(o); }
+        catch (Exception e) { throw new RuntimeException(e); }
     }
 }
