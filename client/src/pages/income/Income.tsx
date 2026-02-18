@@ -73,13 +73,13 @@ function Income() {
       <div className='incomecontainer'>
         <div className='navbar'>
           <ul className='navbarcontent'>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/income')}>Income</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/goals')}>Goals</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/expenses')}>Expenses</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/budget')}>Budget</a></li>
-            <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/accounts'); }}>Accounts</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/income'); }}>Income</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/goals'); }}>Goals</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/expenses'); }}>Expenses</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/budget'); }}>Budget</a></li>
+            <li className='navbaritem' id='logout'><a href="" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Logout</a></li>
           </ul>
         </div>
 
@@ -95,7 +95,7 @@ function Income() {
             </div>
             <div className='incomeInput'>
               <h2>Income Form</h2>
-              <form onSubmit={addIncome}>
+              <form onSubmit={(e) => { e.preventDefault(); addIncome(); }}>
                 <label>
                   Income Type &emsp;
                   <select className='incomeType' aria-placeholder='Hourly or Salary' value={incomeType} onChange={(e) => {setIncomeType(e.target.value)}}>
@@ -134,7 +134,7 @@ function Income() {
                     </label><br />
                   </div>
                 )}
-                <button type='submit' id='addIncomeButton' onSubmit={() => {addIncome(); loadIncomes();}}> Add Income</button>
+                <button type='submit' id='addIncomeButton'>Add Income</button>
               </form>
             </div>
           </div>
@@ -153,7 +153,7 @@ function Income() {
                   <p>Amount Paid ($/h): {income.amount}</p>
                   <p>Hours/Week: {income.weeklyHours}</p>
                 </div>
-                <button className='deleteIncomeButton' onClick={() => deleteIncome(income.incomeName)}>Delete</button>
+                <button className='deleteIncomeButton' type='button' onClick={(e) => { e.preventDefault(); deleteIncome(income.incomeName); }}>Delete</button>
               </div>
             ))}
 
@@ -164,7 +164,7 @@ function Income() {
                   <p>Type of Income: {income.incomeType}</p>
                   <p>Amount Paid ($/year): {income.amount}</p>
                 </div>
-                <button className='deleteIncomeButton' onClick={() => deleteIncome(income.incomeName)}>Delete</button>
+                <button className='deleteIncomeButton' type='button' onClick={(e) => { e.preventDefault(); deleteIncome(income.incomeName); }}>Delete</button>
               </div>
             ))}
           </div>

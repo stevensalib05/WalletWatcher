@@ -77,13 +77,13 @@ function Accounts() {
         <div className='accountscontainer'>
           <div className='navbar'>
             <ul className='navbarcontent'>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/income')}>Income</a></li>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/goals')}>Goals</a></li>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/expenses')}>Expenses</a></li>
-              <li className='navbaritem'><a href="" onClick={() => navigate('/budget')}>Budget</a></li>
-              <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/accounts'); }}>Accounts</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/income'); }}>Income</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/goals'); }}>Goals</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/expenses'); }}>Expenses</a></li>
+              <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/budget'); }}>Budget</a></li>
+              <li className='navbaritem' id='logout'><a href="" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Logout</a></li>
             </ul>
           </div>
 
@@ -112,7 +112,7 @@ function Accounts() {
                         setAccountName("");
                         setBalance("");
                       }}>Add Account</button>
-                      <button className='formcancel' onClick={() => setAccountFormStatus(false)}>Cancel</button>
+                      <button className='formcancel' type='button' onClick={(e) => { e.preventDefault(); setAccountFormStatus(false); }}>Cancel</button>
                     </div>
                   </div>
                 </form>
@@ -132,14 +132,15 @@ function Accounts() {
                   <div key={index} className='accountbox'>
                     <h3>{account.accountName}</h3>
                     <p>Current Balance: ${account.balance}</p>
-                    <button id='deleteaccount' onClick={async () => {
+                    <button id='deleteaccount' type='button' onClick={async (e) => {
+                      e.preventDefault();
                       await deleteAccount(account.accountName);
                       await loadAccounts();
                     }}>Delete</button>
                   </div>
                 ))}
               </div>
-              <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
+              <button id='addaccountbutton' type='button' onClick={(e) => { e.preventDefault(); setAccountFormStatus(true); }}>Add Account</button>
             </div>
 
             {addAccountFormStatus && (
@@ -164,7 +165,7 @@ function Accounts() {
                         setAccountName("");
                         setBalance("");
                       }}>Add Account</button>
-                      <button className='formcancel' onClick={() => setAccountFormStatus(false)}>Cancel</button>
+                      <button className='formcancel' type='button' onClick={(e) => { e.preventDefault(); setAccountFormStatus(false); }}>Cancel</button>
                     </div>
                   </div>
                 </form>
@@ -183,14 +184,15 @@ function Accounts() {
                   <div key={index} className='accountbox'>
                     <h3>{account.accountName}</h3>
                     <p>Current Balance: ${account.balance}</p>
-                    <button id='deleteaccount' onClick={async () => {
+                    <button id='deleteaccount' type='button' onClick={async (e) => {
+                      e.preventDefault();
                       await deleteAccount(account.accountName);
                       await loadAccounts();
                     }}>Delete</button>
                   </div>
                 ))}
               </div>
-              <button id='addaccountbutton' onClick={() => setAccountFormStatus(true)}>Add Account</button>
+              <button id='addaccountbutton' type='button' onClick={(e) => { e.preventDefault(); setAccountFormStatus(true); }}>Add Account</button>
             </div>
           </div>
         </div>

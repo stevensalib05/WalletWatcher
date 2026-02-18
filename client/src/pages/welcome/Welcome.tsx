@@ -14,11 +14,11 @@ function Welcome() {
           </p>
 
           <div className="button-group">
-            <button className="primary-btn" onClick={() => navigate('/login')}>
+            <button className="primary-btn" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>
               Log In
             </button>
 
-            <button className="secondary-btn">
+            <button className="secondary-btn" onClick={(e) => e.preventDefault()}>
               Create Account
             </button>
           </div>

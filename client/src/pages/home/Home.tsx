@@ -29,13 +29,13 @@ function Home() {
     <div className='welcomecontainer'>
       <div className='navbar'>
         <ul className='navbarcontent'>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/income')}>Income</a></li>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/goals')}>Goals</a></li>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/expenses')}>Expenses</a></li>
-          <li className='navbaritem'><a href="" onClick={() => navigate('/budget')}>Budget</a></li>
-          <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/accounts'); }}>Accounts</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/income'); }}>Income</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/goals'); }}>Goals</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/expenses'); }}>Expenses</a></li>
+          <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/budget'); }}>Budget</a></li>
+          <li className='navbaritem' id='logout'><a href="" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Logout</a></li>
         </ul>
       </div>
 

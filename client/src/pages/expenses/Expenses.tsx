@@ -76,19 +76,19 @@ function Expenses() {
       <div className="expensescontainer">
         <div className='navbar'>
           <ul className='navbarcontent'>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/home')}>Home</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/accounts')}>Accounts</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/income')}>Income</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/goals')}>Goals</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/expenses')}>Expenses</a></li>
-            <li className='navbaritem'><a href="" onClick={() => navigate('/budget')}>Budget</a></li>
-            <li className='navbaritem' id='logout'><a href="" onClick={() => navigate('/')}>Logout</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/accounts'); }}>Accounts</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/income'); }}>Income</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/goals'); }}>Goals</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/expenses'); }}>Expenses</a></li>
+            <li className='navbaritem'><a href="" onClick={(e) => { e.preventDefault(); navigate('/budget'); }}>Budget</a></li>
+            <li className='navbaritem' id='logout'><a href="" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Logout</a></li>
           </ul>
         </div>
 
           <div className='expenses'>
             <h1>Expenses</h1>
-            <form className='expensesform' onSubmit={addExpense}>
+            <form className='expensesform' onSubmit={(e) => { e.preventDefault(); addExpense(); }}>
               <div className='expensesinput'>
                 <label>Name:</label><input id='expenseinput' type='text' placeholder='Netflix, Spotify, Phone Bill, etc...' value={name} onChange={(e) => setName(e.target.value)}></input>
                 <label>Type:</label><select id='expensecategory' aria-placeholder='---Select an Option---' value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -122,7 +122,7 @@ function Expenses() {
                     <p>Amount: ${expense.amount}</p>
                     <p>Frequency: {expense.frequency}</p>
                   </div>
-                  <button type='button' className='deleteExpenseButton' onClick={() => deleteExpense(expense.id)}>Delete</button>
+                  <button type='button' className='deleteExpenseButton' onClick={(e) => { e.preventDefault(); deleteExpense(expense.id); }}>Delete</button>
                 </div>
               ))}
             </div>
