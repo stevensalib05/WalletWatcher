@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Budget() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState<User | null>(null);
+    const [budget, setBudget] = useState<any>(null);
 
     useEffect(() => {
       loadUser();
@@ -18,21 +19,13 @@ function Budget() {
       setUserData(userInfo);
     }
 
-    async function returnAllUserData() {
-      // Fetching ALL user data since it will be parsed and returned in an overall compacted JSON for the LLM to utilize for budget creation!
-      const accountResponse = await fetch(`/api/accounts/${userData?.email}`, { credentials: "include" });
-      if (!accountResponse.ok) return new Error("Can't fetch Account Data.");
+    async function loadBudget() {
+        if (!userData?.email) return;
 
-      const incomeResponse = await fetch(`/api/incomes/${userData?.email}`, { credentials: "include" });
-      if (!incomeResponse.ok) return new Error("Can't fetch Income Data.");
-
-      const goalResponse = await fetch(`/api/goals/${userData?.email}`, { credentials: "include" });
-      if (!goalResponse.ok) return new Error("Can't fetch Goal Data.");
-
-      const expenseResponse = await fetch(`/api/expenses/${userData?.email}`, { credentials: "include" });
-      if (!expenseResponse.ok) return new Error("Can't fetch Expense Data.");
-
-      
+        const res = await fetch(`/api/plan/${encodeURIComponent(userData.email)}`, { credentials: "include" });
+        if (!res.ok) throw new Error("Failed to Load Budget.");
+        const budgetInfo = await res.json();
+        setBudget(budgetInfo);
     }
 
     return (

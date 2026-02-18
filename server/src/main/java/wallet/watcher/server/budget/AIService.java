@@ -47,7 +47,7 @@ public class AIService {
 
         // Parameters for the Chat Request with OpenAI.
         StructuredResponseCreateParams<BudgetPlan> params = ResponseCreateParams.builder()
-                .model(ChatModel.GPT_5_2)
+                .model(ChatModel.GPT_4O_MINI)
                 .input(prompt)
                 .text(BudgetPlan.class)
                 .build();
